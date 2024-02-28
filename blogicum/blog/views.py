@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponseNotFound
 
 # Create your views here.
 
@@ -48,18 +49,18 @@ posts = [
 
 
 def index(request):
-    template = 'blog/index.html'
     context = {'posts': posts}
-    return render(request, template, context)
+    return render(request, 'blog/index.html', context)
 
 
-def post_detail(request, pk):
-    template = 'blog/detail.html'
-    context = {'post': posts[pk]}
-    return render(request, template, context)
+def post_detail(request, id):
+    for post in posts:
+        if post['id'] == id:
+            context = {'post': post}
+            return render(request, 'blog/detail.html', context)
+    return HttpResponseNotFound("<h1>404</h1><br><h2>Page not found</h2>")
 
 
 def category_posts(request, category_slug):
-    template = 'blog/category.html'
     slug = {'slug': category_slug}
-    return render(request, template, slug)
+    return render(request, 'blog/category.html', slug)
