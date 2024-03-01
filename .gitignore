@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# practicum
+static
+practicum_preset
+
 # Distribution / packaging
 .Python
 build/

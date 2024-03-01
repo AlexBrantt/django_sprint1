@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseNotFound
 
-# Create your views here.
-
 
 posts = [
     {
@@ -47,6 +45,8 @@ posts = [
     },
 ]
 
+posts_dict = {post['id']: post for post in posts}
+
 
 def index(request):
     context = {'posts': posts}
@@ -54,10 +54,10 @@ def index(request):
 
 
 def post_detail(request, id):
-    for post in posts:
-        if post['id'] == id:
-            context = {'post': post}
-            return render(request, 'blog/detail.html', context)
+    context = posts_dict.get(id)
+    if context:
+        context = {'post': context}
+        return render(request, 'blog/detail.html', context)
     return HttpResponseNotFound("<h1>404</h1><br><h2>Page not found</h2>")
 
 
